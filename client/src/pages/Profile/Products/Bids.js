@@ -5,6 +5,7 @@ import { GetAllBids } from "../../../apicalls/products";
 import { SetLoader } from "../../../redux/loadersSlice";
 import moment from "moment";
 import Divider from "../../../components/Divider";
+import { calc } from "antd/es/theme/internal";
 
 function Bids({ showBidsModal, setShowBidsModal, selectedProduct }) {
   const [bidsData, setBidsData] = React.useState([]);
@@ -76,9 +77,10 @@ function Bids({ showBidsModal, setShowBidsModal, selectedProduct }) {
       open={showBidsModal}
       onCancel={() => setShowBidsModal(false)}
       centered
-      width={1500}
+      // width={calc("w-full")}
       footer={null}
-    >
+      >
+      
       <div className="flex gap-3 flex-col">
         <h1 className=" text-primary">Bids</h1>
         <Divider />
@@ -86,7 +88,7 @@ function Bids({ showBidsModal, setShowBidsModal, selectedProduct }) {
           Product Name: {selectedProduct.name}
         </h1>
 
-        <Table columns={columns} dataSource={bidsData} />
+        <Table columns={columns} dataSource={bidsData} scroll={{x:"max-content"}} />
       </div>
     </Modal>
   );

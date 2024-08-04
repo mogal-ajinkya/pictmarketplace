@@ -6,10 +6,19 @@ import { PlaceNewBid } from "../../apicalls/products";
 import { AddNotification } from "../../apicalls/notifications";
 
 function BidModal({ ShowBidModal, setShowBidModal, product, reloadData }) {
+  
   const {user} = useSelector((state) => state.users);
   const formRef = React.useRef(null);
   const rules = [{required: true,message: "Required"}];
   const dispatch = useDispatch();
+
+    const handleWhatsAppRedirect = (phoneNumber, message ) => {
+      const url = `https://wa.me/${'+91'+phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    };
+    
+
+    
   const onFinish = async (values) => {
     try {
       dispatch(SetLoader(true));
@@ -22,6 +31,13 @@ function BidModal({ ShowBidModal, setShowBidModal, product, reloadData }) {
       if(response.success){
         dispatch(SetLoader(false));
         message.success("Bid placed successfully");
+        // redirecting to whatsapp 
+        const url = window.location.href;
+        const currurl = url ? url : '';
+        // navigator.clipboard.writeText(url)
+        const messagetoseller = `Hi, I'm interested product:\n\n${product.name}\nLink:- ${currurl}\nThat you have add to :- https://pictolx.onrender.com \n My bid amount is: ${values.bidAmount}`;
+
+        handleWhatsAppRedirect(product.mobile,messagetoseller)
 
          // send notification to seller
          await AddNotification({
@@ -39,7 +55,9 @@ function BidModal({ ShowBidModal, setShowBidModal, product, reloadData }) {
       dispatch(SetLoader(false));
     }
   };
+
   return (
+
     <Modal
       visible={ShowBidModal}
       onCancel={() => setShowBidModal(false)}

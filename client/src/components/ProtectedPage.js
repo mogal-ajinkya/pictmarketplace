@@ -1,21 +1,23 @@
 import { message, Badge, Avatar } from "antd";
 import React from "react";
-import { useEffect } from "react";
-import { GetCurrentUser } from "../apicalls/users";
+import { useEffect , useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice";
 import { SetLoader } from "../redux/loadersSlice";
-import { useState } from "react";
+
 import Notifications from "./Notifications";
 import { GetAllNotifications , ReadAllNotifications } from "../apicalls/notifications";
+import { GetCurrentUser } from "../apicalls/users";
 
 function ProtectedPage({ children }) {
+
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+
   const validateToken = async () => {
     try {
       dispatch(SetLoader(true));
@@ -72,11 +74,13 @@ function ProtectedPage({ children }) {
       // message.error("Please login to access this page");
     }
   }, []);
+
+
   return (
     user && (
       <div>
         {/* header  */}
-        <div className="flex justify-between items-center bg-primary p-5 ">
+        <div className="flex justify-between items-center bg-primary p-5 w-full ">
           <h1
             className="text-2xl text-white cursor-pointer"
             onClick={() => {
@@ -85,9 +89,11 @@ function ProtectedPage({ children }) {
           >
             PICT OLX
           </h1>
-          <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
+
+
+          <div className="bg-white py-2 px-5 rounded flex gap-2 items-center">
             <span
-              className="underline cursor-pointer uppercase"
+              className="cursor-pointer uppercase"
               onClick={() => {
                 if (user.role === "user") {
                   navigate("/profile");
@@ -96,7 +102,13 @@ function ProtectedPage({ children }) {
                 }
               }}
             >
+              <div className="max-sm:hidden underline ">
               {user.name}
+              </div>
+              <div className="sm:hidden">
+              <i class="ri-account-circle-line font-size-[34px]"></i>
+                
+              </div>
             </span>
 
             <Badge
@@ -115,16 +127,23 @@ function ProtectedPage({ children }) {
                 icon={<i className="ri-notification-3-line"></i>}
               />
             </Badge>
+
             <i
-              className ="ri-logout-box-r-line ml-10"
+              className ="ri-logout-box-r-line"
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/login");
               }}
             ></i>
           </div>
+
+
+
         </div>
         {/* body */}
+
+
+
         <div className="p-5">{children}</div>
 
         {

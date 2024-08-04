@@ -49,7 +49,6 @@ export const EditProduct = async (id, payload) => {
       return error.message;
     }
   };
-
   
 // delete a product
 export const DeleteProduct = async (id) => {
@@ -62,8 +61,6 @@ export const DeleteProduct = async (id) => {
     return error.message;
   }
 };
-
-
 // upload product image
 export const UploadProductImage = async (payload) => {
   try {
@@ -102,8 +99,6 @@ export const PlaceNewBid = async (payload) => {
     return error.message;
   }
 };
-
-
 
 // get all bids
 export const GetAllBids = async (filters) => {

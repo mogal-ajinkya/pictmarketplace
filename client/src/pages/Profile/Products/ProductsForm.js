@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { SetLoader } from "../../../redux/loadersSlice";
 import { AddProduct, EditProduct } from "../../../apicalls/products";
 import Images from "./Images";
+// import FormItem from "antd/es/form/FormItem";
+// import PhoneInput from "antd-phone-input";
 
 const additionalThings = [
   {
@@ -33,6 +35,7 @@ const rules = [
   },
 ];
 
+const ruler = [{}];
 function ProductsForm({
   showProductForm,
   setshowProductForm,
@@ -52,6 +55,7 @@ function ProductsForm({
         response = await EditProduct(selectedProduct._id, values);
       } else {
         values.seller = user._id;
+        values.user = user;
         values.status = "pending";
         response = await AddProduct(values);
       }
@@ -85,7 +89,6 @@ function ProductsForm({
       open={showProductForm}
       onCancel={() => setshowProductForm(false)}
       centered
-      width={1000}
       okText="Save"
       onOk={() => {
         formRef.current.submit();
@@ -100,10 +103,11 @@ function ProductsForm({
           defaultActiveKey="1"
           activeKey={SelectedTab}
           onChange={(key) => setSelectedTab(key)}
+          // width="80vw"
         >
           <Tabs.TabPane tab="General" key="1">
             <Form layout="vertical" ref={formRef} onFinish={onFinish}>
-            {/* <div className="p-2">Message : you can add images after saving details </div> */}
+              {/* <div className="p-2">Message : you can add images after saving details </div> */}
 
               <Form.Item label="Product Name" name="name" rules={rules}>
                 <Input Type="text" />
@@ -114,7 +118,6 @@ function ProductsForm({
               </Form.Item>
 
               <Row gutter={[16, 16]}>
-
                 <Col span={8}>
                   <Form.Item label="Price" name="price" rules={rules}>
                     <Input Type="number" />
@@ -140,6 +143,30 @@ function ProductsForm({
                   </Form.Item>
                 </Col>
 
+                <Col span={8}>
+                  {/* <Form.Item label="Mobile (buyer will contact you through this no.)" name="mobile" rules={rules}>
+                  <Input type="number"/>
+                  </Form.Item> */}
+                  
+                    <Form.Item
+                      label="Mobile (buyer will contact you through this no.)" name="mobile"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your mobile number!",
+                        },
+                        {
+                          pattern: /^[0-9]{10}$/,
+                          message:
+                          "Please enter a valid 10-digit mobile number!",
+                        },
+                      ]}
+                    >
+                      <Input type="number"/>
+                      {/* <Input placeholder="Enter your mobile number" /> */}
+                  </Form.Item>
+
+                </Col>
               </Row>
 
               <div className="flex gap-10">
@@ -180,7 +207,7 @@ function ProductsForm({
                   checked={formRef.current?.getFieldValue(
                     "showBidsOnProductPage"
                   )}
-                  style={{ width: 60  , marginLeft:20}}
+                  style={{ width: 60, marginLeft: 20 }}
                 />
               </Form.Item>
             </Form>

@@ -55,6 +55,7 @@ const Products = () => {
     {
       title: "Image",
       dataIndex: "image",
+      className:"max-sm:hidden",
       render: (text, record) => {
         return (
           <img
@@ -72,22 +73,28 @@ const Products = () => {
     {
       title: "Description",
       dataIndex: "description",
+      className:"max-sm:hidden",
     },
     {
       title: "Price",
       dataIndex: "price",
+      className:"max-sm:hidden",
+      className:"max-sm:hidden",
     },
     {
       title: "Category",
       dataIndex: "category",
+      className:"max-sm:hidden",
     },
     {
       title: "Age",
       dataIndex: "age",
+      className:"max-sm:hidden"
     },
     {
       title: "Status",
       dataIndex: "status",
+      className:"max-sm:hidden",
       render: (text, record) => {
         return record.status.toUpperCase();
       },
@@ -97,7 +104,8 @@ const Products = () => {
       dataIndex: "createdAt",
       render: (text, record) =>
         // moment(record.createdAt).format("DD-MM-YYYY hh:mm A"),
-        moment(record.createdAt).format("DD-MM-YYYY hh:mm A"),
+      moment(record.createdAt).format("DD-MM-YYYY hh:mm A"),
+      className:"max-sm:hidden"
     },
     {
       title: "Action",
@@ -137,7 +145,7 @@ const Products = () => {
     getData();
   }, []);
   return (
-    <div>
+    <div className="w-full">
       <div className="flex justify-end mb-2">
         <Button
           type="default"
@@ -149,7 +157,7 @@ const Products = () => {
           Add Product
         </Button>
       </div>
-      <Table columns={columns} dataSource={products}></Table>
+      <Table columns={columns} dataSource={products} scroll={{ x: 'max-content' }}></Table>
       {showProductForm && (
         <ProductsForm
           showProductForm={showProductForm}

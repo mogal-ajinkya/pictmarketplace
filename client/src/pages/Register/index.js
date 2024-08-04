@@ -58,7 +58,10 @@ function Register() {
             <Input placeholder="email" />
           </Form.Item>
 
-          <Form.Item label="Password" name="password" rules={rules}>
+          <Form.Item label="Password" name="password" rules={[rules,{  pattern: /^.{4,}$/,
+                          message:
+                          "required length min 4",
+                        }]}>
             <Input type="password" placeholder="password" />
           </Form.Item>
 

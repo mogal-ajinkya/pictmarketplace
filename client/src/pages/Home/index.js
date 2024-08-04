@@ -1,24 +1,28 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { GetProducts } from "../../apicalls/products";
+import { useNavigate } from "react-router-dom";
 import { SetLoader } from "../../redux/loadersSlice";
 import { message } from "antd";
+import { GetProducts } from "../../apicalls/products";
 import Divider from "../../components/Divider";
-import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
 
 function Home() {
+
   const [search,setSearch] = React.useState("");
   const [showFilters, setShowFilters] = React.useState(false);
   const [products, setProducts] = React.useState([]);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const [filters, setFilters] = React.useState({
     status: "approved",
     name : "",
     category: [],
     age: [],
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const getData = async () => {
     try {
       dispatch(SetLoader(true));
@@ -39,7 +43,8 @@ function Home() {
   }, [filters]);
 
   return (
-    <div className="flex gap-5">
+
+    <div className="flex gap-5 ">
       {showFilters && (
         <Filters
           showFilters={showFilters}
@@ -80,13 +85,13 @@ function Home() {
         </div>
         <div
           className={`
-        grid gap-5 ${showFilters ? "grid-cols-4" : "grid-cols-5"}
+        grid gap-5 ${showFilters ? "grid-cols-4 max-sm:grid-cols-2" : "grid-cols-5 max-sm:grid-cols-3"}
       `}
         >
           {products?.map((product) => {
             return (
               <div
-                className="border border-gray-300 rounded border-solid flex flex-col gap-2 pb-2 cursor-pointer "
+                className="border border-gray-300 rounded border-solid flex flex-col gap-2 pb-2 cursor-pointer flex-wrap"
                 key={product._id}
                 onClick={() => navigate(`/product/${product._id}`)}
               >
@@ -97,7 +102,7 @@ function Home() {
                 />
 
                 <div className="px-2 flex flex-col">
-                  <h1 className="text-lg font-semibold">{product.name}</h1>
+                  <h1 className="sm:text-lg sm:font-semibold max-sm:text-[10px]">{product.name}</h1>
                   <p className="text-sm">
                     {product.age} {' '}
                     {product.age === 1 ? " year" : " years"} {' '}
@@ -114,6 +119,7 @@ function Home() {
         </div>
       </div>
     </div>
+
   );
 }
 

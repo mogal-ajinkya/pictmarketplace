@@ -22,6 +22,7 @@ function ProductInfo() {
     try {
       dispatch(SetLoader(true));
       const response = await GetProductById(id);
+      console.log(response);
       dispatch(SetLoader(false));
       if (response.success) {
         const bidsResponse = await GetAllBids({ product: id });
@@ -46,6 +47,7 @@ function ProductInfo() {
         <div className="grid grid-cols-2 gap-5 mt-5">
           {/* images */}
           <div className="flex flex-col gap-5">
+            
             <img
               src={product.images[selectedImageIndex]}
               alt=""
@@ -158,7 +160,7 @@ function ProductInfo() {
                   onClick={() => setShowAddNewBid(!ShowAddNewBid)}
                   disabled={user._id === product.seller._id}
                 >
-                  Add New Bid
+                  Add New Bid And Contact seller 
                 </Button>
               </div>
 

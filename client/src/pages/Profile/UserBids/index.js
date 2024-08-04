@@ -77,7 +77,7 @@ function Bids() {
   return (
       <div className="flex gap-3 flex-col">
         <Divider />
-        <Table columns={columns} dataSource={bidsData} />
+        <Table columns={columns} dataSource={bidsData} scroll={{ x: 'max-content' }}/>
       </div>
   );
 }
